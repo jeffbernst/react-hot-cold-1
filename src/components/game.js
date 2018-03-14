@@ -4,13 +4,14 @@ import Header from './header';
 import GuessSection from './guess-section';
 import StatusSection from './status-section';
 import InfoSection from './info-section';
+import {connect} from 'react-redux';
+
+import {makeGuess, changeFeedback, resetGame} from '../actions/index.js';
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      guesses: [],
-      feedback: 'Make your guess!',
       auralStatus: '',
       correctAnswer: Math.round(Math.random() * 100) + 1
     };
@@ -18,8 +19,6 @@ export default class Game extends React.Component {
 
   restartGame() {
     this.setState({
-      guesses: [],
-      feedback: 'Make your guess!',
       auralStatus: '',
       correctAnswer: Math.floor(Math.random() * 100) + 1
     });
@@ -101,3 +100,18 @@ export default class Game extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+	return {
+		guesses: state.guesses,
+		feedback: state.feedback
+	};
+}
+
+const mapDispatchToProps = {
+	makeGuess,
+	changeFeedback,
+  resetGame
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
